@@ -1,0 +1,321 @@
+<html>
+<title>养老缺口计算公式</title>
+<body>
+<table>
+    <tr>
+        <td colspan="6">         养老缺口计算工具      </td>
+    </tr>
+    <tr>
+        <td colspan="6">第一步：计算养老年限</td>
+    </tr>
+    <tr>
+        <td>年龄（岁）</td>
+        <td><input type="text" value="40" name="age"></td>
+        <td>平均寿命（岁）</td>
+        <td>78</td>
+        <td>预期寿命</td>
+        <td id="life-expectancy"></td>
+    </tr>
+    <tr>
+        <td>希望退休年龄（岁）</td>
+        <td><input type="text" value="60" name="retire"></td>
+        <td>退休养老年限（年）</td>
+        <td id="retirement-age" colspan="3"></td>
+    </tr>
+    <tr>
+        <td colspan="6">第二步：计算养老所需费用</td>
+    </tr>
+    <tr>
+        <td>基本项目</td>
+        <td colspan="3">花费</td>
+        <td colspan="2">累计</td>
+    </tr>
+    <tr>
+        <td>食</td>
+        <td>每天</td>
+        <td><input type="text" value="100" name="food"></td>
+        <td>元，累计需要</td>
+        <td id="totalFood" colspan="2"></td>
+    </tr>
+    <tr>
+        <td>衣</td>
+        <td>每年</td>
+        <td><input type="text" value="5000" name="clothes"></td>
+        <td>元，累计需要</td>
+        <td id="totalClothes" colspan="2"></td>
+    </tr>
+    <tr>
+        <td>医护</td>
+        <td>每月</td>
+        <td><input type="text" value="2000" name="medical"></td>
+        <td>元，累计需要</td>
+        <td id="totalMedical" colspan="2"></td>
+    </tr>
+    <tr>
+        <td>行</td>
+        <td>每月</td>
+        <td><input type="text" value="100" name="transport"></td>
+        <td>元，累计需要</td>
+        <td id="totalTransport" colspan="2"></td>
+    </tr>
+    <tr>
+        <td>游</td>
+        <td>每年</td>
+        <td><input type="text" value="5000" name="travel"></td>
+        <td>元，累计需要</td>
+        <td id="totalTravel" colspan="2"></td>
+    </tr>
+    <tr>
+        <td>其他生活成本</td>
+        <td>每年</td>
+        <td><input type="text" value="5000" name="other"></td>
+        <td>元，累计需要</td>
+        <td id="totalOther" colspan="2"></td>
+    </tr>
+    <tr>
+        <td>合计</td>
+        <td id="total" colspan="5"></td>
+    </tr>
+    <tr>
+        <td colspan="6">一个人养老至少需要花费多少钱（考虑物价上涨）</td>
+    </tr>
+    <tr>
+        <td>初年度基本养老费用</td>
+        <td>养老年限</td>
+        <td>通胀</td>
+        <td colspan="3">动态养老费用</td>
+    </tr>
+    <tr>
+        <td id="YearOneCost"></td>
+        <td id="retirementYear"></td>
+        <td><input type="text" value="5" name="inflation">%</td>
+        <td id="dynamicCost" colspan="3"></td>
+    </tr>
+    <tr>
+        <td colspan="6">第三步：计算养老缺口</td>
+    </tr>
+    <tr>
+        <td>目前社保缴纳城市</td>
+        <td>南京</td>
+        <td>月收入（元）</td>
+        <td><input type="text" value="8000" name="incoming"></td>
+        <td>每月缴存（元）</td>
+        <td><input type="text" value="640" name="store"></td>
+    </tr>
+    <tr>
+        <td>当地社平工资（元）</td>
+        <td>8119 </td>
+        <td>缴费年限（年）</td>
+        <td><input type="text" value="30" name="year"></td>
+        <td>预计可领月数</td>
+        <td id="month"></td>
+    </tr>
+    <tr>
+        <td>个人账户月领（元）</td>
+        <td id="pm"></td>
+        <td>统筹账户月领（元）</td>
+        <td id="am"></td>
+        <td>每月累计</td>
+        <td id="tm"></td>
+    </tr>
+    <tr>
+        <td>累计可领</td>
+        <td colspan="5" id="totalMoney"></td>
+    </tr>
+    <tr>
+        <td>初年度社保可领</td>
+        <td>养老年限</td>
+        <td>年增长</td>
+        <td colspan="3">动态社保可领</td>
+    </tr>
+    <tr>
+        <td colspan="2" id="firstMoney"></td>
+        <td><input type="text" value="5" name="rise">%</td>
+        <td colspan="3" id="dynamicMoney"></td>
+    </tr>
+    <tr>
+        <td colspan="3">静态缺口（最理想）</td>
+        <td colspan="3" id="static"></td>
+    </tr>
+    <tr>
+        <td colspan="3">动态缺口（最实际）</td>
+        <td colspan="3" id="dynamic"></td>
+    </tr>
+</table>
+</body>
+</html>
+<style>
+body {
+background-color: #282c34;
+color: #abb2bf;
+}
+
+a {
+color: #61afef;
+}
+
+h1, h2, h3, h4, h5, h6 {
+color: #e06c75;
+}
+
+p {
+color: #abb2bf;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #abb2bf;
+  padding: 0.5rem;
+  color: #abb2bf;
+}
+
+input[type="text"] {
+        background-color: transparent;
+        border: none;
+        color: #abb2bf;
+    }
+</style>
+
+<script>
+    const ageInput = document.querySelector('input[name="age"]');
+    const retireInput = document.querySelector('input[name="retire"]');
+    const lifeExpectancy = document.querySelector('#life-expectancy');
+    const retirementAge = document.querySelector('#retirement-age');
+    const clothesInput = document.querySelector('input[name="clothes"]');
+    const foodInput = document.querySelector('input[name="food"]');
+    const medicalInput = document.querySelector('input[name="medical"]');
+    const travelInput = document.querySelector('input[name="travel"]');
+    const transportInput = document.querySelector('input[name="transport"]');
+    const otherInput = document.querySelector('input[name="other"]');
+    const totalClothes = document.querySelector('#totalClothes');
+    const totalFood = document.querySelector('#totalFood');
+    const totalMedical = document.querySelector('#totalMedical');
+    const totalTravel = document.querySelector('#totalTravel');
+    const totalOther = document.querySelector('#totalOther');
+    const total = document.querySelector('#total');
+    const firstCost = document.querySelector('#YearOneCost');
+    const inflationInput = document.querySelector('input[name="inflation"]');
+    const month = document.querySelector('#month');
+    const store = document.querySelector('input[name="store"]');
+    const year = document.querySelector('input[name="year"]');
+    const incoming = document.querySelector('input[name="incoming"]');
+    const pm =document.querySelector('#pm');
+    const am =document.querySelector('#am');
+    const tm =document.querySelector('#tm');
+    const totalMoney = document.querySelector('#totalMoney');
+    const firstMoney = document.querySelector('#firstMoney');
+    const rise =document.querySelector('input[name="rise"]');
+    const dynamicMoney=document.querySelector('#dynamicMoney');
+    const static = document.querySelector('#static');
+    const dynamic = document.querySelector('#dynamic');
+
+    function updateRetirementAge() {
+        const age = parseInt(ageInput.value);
+        const retire = parseInt(retireInput.value);
+        if (isNaN(age) || isNaN(retire) || (age-retire>0)) {
+            retirementAge.textContent = 'Illegal value';
+            lifeExpectancy.textContent = 'Illegal value';
+            retirementYear.textContent = 'Illegal value';
+            return;
+        }
+        const life = Math.floor(78+(78-age)/3**1+(78-age)/3**2+(78-age)/3**3+(78-age)/3**4+(78-age)/3**5+(78-age)/3**6);
+        lifeExpectancy.textContent = life;
+        retirementAge.textContent = life - retire;
+        retirementYear.textContent = life - retire;
+    }
+
+    function updateCost(){
+        const retirement = parseInt(retirementAge.textContent);
+        const food = parseInt(foodInput.value);
+        if(isNaN(food)){
+            totalFood.textContent = 'Illegal value';
+            return;
+        }
+        totalFood.textContent = food*365*retirement;
+
+        const clothes = parseInt(clothesInput.value);
+        if(isNaN(clothes)){
+            totalClothes.textContent = 'Illegal value';
+            return;
+        }
+        totalClothes.textContent = clothes*retirement;
+
+        const medical = parseInt(medicalInput.value);
+        if(isNaN(medical)){
+            totalMedical.textContent = 'Illegal value';
+            return;
+        }
+        totalMedical.textContent = medical*12*retirement;
+
+        const travel = parseInt(travelInput.value);
+        if(isNaN(travel)){
+            totalTravel.textContent = 'Illegal value';
+            return;
+        }
+        totalTravel.textContent = travel*retirement;
+
+        const transport = parseInt(transportInput.value);
+        if(isNaN(transport)){
+            totalTransport.textContent = 'Illegal value';
+            return;
+        }
+        totalTransport.textContent = transport*12*retirement;
+
+        const other = parseInt(otherInput.value);
+        if(isNaN(other)){
+            totalOther.textContent = 'Illegal value';
+            return;
+        }
+        totalOther.textContent = other*retirement;
+
+        total.textContent = parseInt(totalFood.textContent) + parseInt(totalClothes.textContent) + parseInt(totalMedical.textContent) + parseInt(totalTravel.textContent) + parseInt(totalTransport.textContent) + parseInt(totalOther.textContent);
+        firstCost.textContent = parseInt(total.textContent) / parseInt(retirementYear.textContent);
+        dynamicCost.textContent = Math.round(parseInt(firstCost.textContent)*((1+parseInt(inflationInput.value)/100)**parseInt(retirementYear.textContent)-1)/(parseInt(inflationInput.value)/100));
+    }
+
+    function updateLack(){
+        const yearInt=parseInt(retireInput.value);
+        var result=0;
+        if (yearInt == 60) {
+            result = 139;
+        }
+        else if (yearInt == 55) {
+            result = 170;
+        }
+        else if (yearInt == 50) {
+            result = 195;
+        }
+        month.textContent = result;
+        pm.textContent = Math.round(parseInt(store.value)*12*parseInt(year.value)/parseInt(month.textContent));
+        am.textContent = Math.round((parseInt(incoming.value)+8119)/2*parseInt(year.value)*0.01);
+        tm.textContent = parseInt(pm.textContent)+parseInt(am.textContent);
+        totalMoney.textContent = parseInt(tm.textContent)*12*parseInt(retirementAge.textContent);
+        firstMoney.textContent = Math.round(parseInt(totalMoney.textContent)/30);
+        dynamicMoney.textContent = Math.round((parseInt(firstMoney.textContent)*((1+parseInt(rise.value)/100)**parseInt(retirementYear.textContent)-1))*100/parseInt(rise.value));
+        static.textContent = parseInt(dynamicCost.textContent)-parseInt(dynamicMoney.textContent);
+        dynamic.textContent = parseInt(dynamicCost.textContent)-parseInt(totalMoney.textContent);
+    }
+
+    window.onload = function() {
+        updateRetirementAge();
+        updateCost();
+        updateLack();
+    };
+
+    ageInput.addEventListener('blur', updateRetirementAge);
+    retireInput.addEventListener('blur', updateRetirementAge);
+    foodInput.addEventListener('blur',updateCost);
+    clothesInput.addEventListener('blur',updateCost);
+    medicalInput.addEventListener('blur',updateCost);
+    transportInput.addEventListener('blur',updateCost);
+    travelInput.addEventListener('blur',updateCost);
+    otherInput.addEventListener('blur',updateCost);
+    inflationInput.addEventListener('blur',updateCost);
+    year.addEventListener('blur',updateLack);
+    store.addEventListener('blur',updateLack);
+    rise.addEventListener('blur',updateLack);
+
+</script>
