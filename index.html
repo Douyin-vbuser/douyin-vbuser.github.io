@@ -299,23 +299,43 @@ input[type="text"] {
         dynamic.textContent = parseInt(dynamicCost.textContent)-parseInt(totalMoney.textContent);
     }
 
+    function update(){
+        updateRetirementAge();
+        updateCost();
+        updateLack();
+    }
+
     window.onload = function() {
+        ageInput.value = "40";
+        retireInput.value = "60";
+        clothesInput.value = "5000";
+        foodInput.value = "100";
+        medicalInput.value = "2000";
+        travelInput.value = "5000";
+        transportInput.value = "100";
+        otherInput.value = "5000";
+        inflationInput.value = "5";
+        store.value = "640";
+        year.value = "30";
+        incoming.value = "8000";
+        rise.value = "5";
         updateRetirementAge();
         updateCost();
         updateLack();
     };
 
-    ageInput.addEventListener('blur', updateRetirementAge);
-    retireInput.addEventListener('blur', updateRetirementAge);
-    foodInput.addEventListener('blur',updateCost);
-    clothesInput.addEventListener('blur',updateCost);
-    medicalInput.addEventListener('blur',updateCost);
-    transportInput.addEventListener('blur',updateCost);
-    travelInput.addEventListener('blur',updateCost);
-    otherInput.addEventListener('blur',updateCost);
-    inflationInput.addEventListener('blur',updateCost);
-    year.addEventListener('blur',updateLack);
-    store.addEventListener('blur',updateLack);
-    rise.addEventListener('blur',updateLack);
+    ageInput.addEventListener('blur',update);
+    retireInput.addEventListener('blur', update);
+    foodInput.addEventListener('blur',update);
+    clothesInput.addEventListener('blur',update);
+    medicalInput.addEventListener('blur',update);
+    transportInput.addEventListener('blur',update);
+    travelInput.addEventListener('blur',update);
+    otherInput.addEventListener('blur',update);
+    inflationInput.addEventListener('blur',update);
+    year.addEventListener('blur',update);
+    store.addEventListener('blur',update);
+    rise.addEventListener('blur',update);
+    incoming.addEventListener('blur',update);
 
 </script>
