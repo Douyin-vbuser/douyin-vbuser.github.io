@@ -1,4 +1,4 @@
-<html>
+<!DOCTYPE html>
 <title>养老缺口计算公式</title>
 <body>
 <table>
@@ -10,7 +10,9 @@
     </tr>
     <tr>
         <td>年龄（岁）</td>
-        <td><input type="text" value="40" name="age"></td>
+        <td><label>
+            <input type="text" value="40" name="age">
+        </label></td>
         <td>平均寿命（岁）</td>
         <td>78</td>
         <td>预期寿命</td>
@@ -18,7 +20,9 @@
     </tr>
     <tr>
         <td>希望退休年龄（岁）</td>
-        <td><input type="text" value="60" name="retire"></td>
+        <td><label>
+            <input type="text" value="60" name="retire">
+        </label></td>
         <td>退休养老年限（年）</td>
         <td id="retirement-age" colspan="3"></td>
     </tr>
@@ -33,42 +37,54 @@
     <tr>
         <td>食</td>
         <td>每天</td>
-        <td><input type="text" value="100" name="food"></td>
+        <td><label>
+            <input type="text" value="100" name="food">
+        </label></td>
         <td>元，累计需要</td>
         <td id="totalFood" colspan="2"></td>
     </tr>
     <tr>
         <td>衣</td>
         <td>每年</td>
-        <td><input type="text" value="5000" name="clothes"></td>
+        <td><label>
+            <input type="text" value="5000" name="clothes">
+        </label></td>
         <td>元，累计需要</td>
         <td id="totalClothes" colspan="2"></td>
     </tr>
     <tr>
         <td>医护</td>
         <td>每月</td>
-        <td><input type="text" value="2000" name="medical"></td>
+        <td><label>
+            <input type="text" value="2000" name="medical">
+        </label></td>
         <td>元，累计需要</td>
         <td id="totalMedical" colspan="2"></td>
     </tr>
     <tr>
         <td>行</td>
         <td>每月</td>
-        <td><input type="text" value="100" name="transport"></td>
+        <td><label>
+            <input type="text" value="100" name="transport">
+        </label></td>
         <td>元，累计需要</td>
         <td id="totalTransport" colspan="2"></td>
     </tr>
     <tr>
         <td>游</td>
         <td>每年</td>
-        <td><input type="text" value="5000" name="travel"></td>
+        <td><label>
+            <input type="text" value="5000" name="travel">
+        </label></td>
         <td>元，累计需要</td>
         <td id="totalTravel" colspan="2"></td>
     </tr>
     <tr>
         <td>其他生活成本</td>
         <td>每年</td>
-        <td><input type="text" value="5000" name="other"></td>
+        <td><label>
+            <input type="text" value="5000" name="other">
+        </label></td>
         <td>元，累计需要</td>
         <td id="totalOther" colspan="2"></td>
     </tr>
@@ -88,7 +104,9 @@
     <tr>
         <td id="YearOneCost"></td>
         <td id="retirementYear"></td>
-        <td><input type="text" value="5" name="inflation">%</td>
+        <td><label>
+            <input type="text" value="5" name="inflation">
+        </label>%</td>
         <td id="dynamicCost" colspan="3"></td>
     </tr>
     <tr>
@@ -98,15 +116,21 @@
         <td>目前社保缴纳城市</td>
         <td>南京</td>
         <td>月收入（元）</td>
-        <td><input type="text" value="8000" name="incoming"></td>
+        <td><label>
+            <input type="text" value="8000" name="incoming">
+        </label></td>
         <td>每月缴存（元）</td>
-        <td><input type="text" value="640" name="store"></td>
+        <td><label>
+            <input type="text" value="640" name="store">
+        </label></td>
     </tr>
     <tr>
         <td>当地社平工资（元）</td>
         <td>8119 </td>
         <td>缴费年限（年）</td>
-        <td><input type="text" value="30" name="year"></td>
+        <td><label>
+            <input type="text" value="30" name="year">
+        </label></td>
         <td>预计可领月数</td>
         <td id="month"></td>
     </tr>
@@ -130,7 +154,9 @@
     </tr>
     <tr>
         <td colspan="2" id="firstMoney"></td>
-        <td><input type="text" value="5" name="rise">%</td>
+        <td><label>
+            <input type="text" value="5" name="rise">
+        </label>%</td>
         <td colspan="3" id="dynamicMoney"></td>
     </tr>
     <tr>
@@ -299,10 +325,11 @@ input[type="text"] {
         dynamic.textContent = parseInt(dynamicCost.textContent)-parseInt(totalMoney.textContent);
     }
 
-    function update(){
+    function update(event){
         updateRetirementAge();
         updateCost();
         updateLack();
+        checkInt(event.target);
     }
 
     window.onload = function() {
@@ -323,6 +350,14 @@ input[type="text"] {
         updateCost();
         updateLack();
     };
+
+    function checkInt(input){
+        if(input.value.match(/^[1-9]\d*$/)){
+            input.style.color = "#61afef";
+        }else{
+            input.style.color = "#e06c75";
+        }
+    }
 
     ageInput.addEventListener('blur',update);
     retireInput.addEventListener('blur', update);
